@@ -5,12 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dla Julii 🌸</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-<script>
-emailjs.init("jhSQ6B6gLsuKWWA6s");
-</script>
-
 <style>
 * {
     box-sizing: border-box;
@@ -302,19 +296,9 @@ function confirmDate(event){
 
     const button = event.target;
     button.disabled = true;
-    button.textContent = "Wysyłam... ⏳";
+    button.textContent = "Potwierdzam... ⏳";
 
-    emailjs.send(
-        "service_dmpwo9j",
-        "template_d8fbguj",
-        {
-            date: d,
-            time: t,
-            message: `Nowa propozycja daty: ${d} o ${t}`
-        }
-    )
-    .then((response) => {
-        console.log("✅ Email wysłany:", response);
+    setTimeout(()=>{
 
         document.getElementById("calendar")
         .classList.add("hidden");
@@ -326,18 +310,8 @@ function confirmDate(event){
 
         button.disabled = false;
         button.textContent = "❤️ Ustalmy termin";
-    })
-    .catch((error) => {
-        console.error("❌ Błąd EmailJS:", error);
 
-        alert(
-            "Problem z wysłaniem: " + 
-            (error.text || error.message || "Nieznany błąd")
-        );
-
-        button.disabled = false;
-        button.textContent = "❤️ Ustalmy termin";
-    });
+    }, 1000);
 }
 
 
