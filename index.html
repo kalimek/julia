@@ -10,7 +10,11 @@
     box-sizing: border-box;
     font-family: "Segoe UI", sans-serif;
 }
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+<script>
+emailjs.init("jhSQ6B6gLsuKWWA6s");
+</script>
 body {
     margin: 0;
     min-height: 100vh;
@@ -287,29 +291,42 @@ function confetti(){
 
 function confirmDate(){
 
-    let d=document.getElementById("date").value;
-    let t=document.getElementById("time").value;
+    let d = document.getElementById("date").value;
+    let t = document.getElementById("time").value;
 
     if(!d || !t){
         alert("Wybierz datę i godzinę ❤️");
         return;
     }
 
+    emailjs.send(
+        "service_n266vfn",
+        "template_d8fbguj",
+        {
+            date: d,
+            time: t
+        }
+    )
+    .then(() => {
 
-    localStorage.setItem(
-        "spotkanie",
-        d+" "+t
-    );
+        document.getElementById("calendar")
+        .classList.add("hidden");
 
+        document.getElementById("done")
+        .classList.remove("hidden");
 
-    document.getElementById("calendar")
-    .classList.add("hidden");
+        countdown(new Date(d + "T" + t));
 
-    document.getElementById("done")
-    .classList.remove("hidden");
+    })
+    .catch((error) => {
 
+        console.error(error);
 
-    countdown(new Date(d+"T"+t));
+        alert(
+            "Wystąpił problem z wysłaniem terminu 😥"
+        );
+
+    });
 
 }
 
