@@ -165,7 +165,7 @@ input {
 
         <br>
 
-        <button class="yes" onclick="confirmDate()">
+        <button class="yes" onclick="confirmDate(event)">
             ❤️ Ustalmy termin
         </button>
 
@@ -290,7 +290,7 @@ function confetti(){
 }
 
 
-function confirmDate(){
+function confirmDate(event){
 
     let d = document.getElementById("date").value;
     let t = document.getElementById("time").value;
@@ -300,15 +300,21 @@ function confirmDate(){
         return;
     }
 
+    const button = event.target;
+    button.disabled = true;
+    button.textContent = "Wysyłam... ⏳";
+
     emailjs.send(
-        "service_n266vfn",
+        "service_dmpwo9j",
         "template_d8fbguj",
         {
             date: d,
-            time: t
+            time: t,
+            message: `Nowa propozycja daty: ${d} o ${t}`
         }
     )
-    .then(() => {
+    .then((response) => {
+        console.log("✅ Email wysłany:", response);
 
         document.getElementById("calendar")
         .classList.add("hidden");
@@ -318,17 +324,20 @@ function confirmDate(){
 
         countdown(new Date(d + "T" + t));
 
+        button.disabled = false;
+        button.textContent = "❤️ Ustalmy termin";
     })
     .catch((error) => {
-
-        console.error(error);
+        console.error("❌ Błąd EmailJS:", error);
 
         alert(
-            "Wystąpił problem z wysłaniem terminu 😥"
+            "Problem z wysłaniem: " + 
+            (error.text || error.message || "Nieznany błąd")
         );
 
+        button.disabled = false;
+        button.textContent = "❤️ Ustalmy termin";
     });
-
 }
 
 
