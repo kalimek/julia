@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dla Julii 🌸</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg,#ffd6e8,#fff0f7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container {
+    text-align:center;
+    background:rgba(255,255,255,.75);
+    padding:40px;
+    border-radius:30px;
+    box-shadow:0 20px 60px rgba(255,100,150,.2);
+    max-width:420px;
+    width:90%;
+    position:relative;
+    z-index:2;
+}
+
+h1 {
+    color:#e94f9b;
+    font-size:42px;
+}
+
+p {
+    font-size:22px;
+    color:#555;
+}
+
+button {
+    border:none;
+    padding:15px 30px;
+    margin:15px;
+    border-radius:40px;
+    font-size:20px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.yes {
+    background:#ff5fa8;
+    color:white;
+    animation:pulse 1.5s infinite;
+}
+
+.no {
+    background:#eee;
+    position:fixed;
+    transition:0.15s ease;
+    z-index:999;
+}
+
+@keyframes pulse {
+    50% {transform:scale(1.08);}
+}
+
+.hidden {
+    display:none;
+}
+
+.blur {
+    filter:blur(8px);
+}
+
+.message {
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:45px;
+    font-weight:bold;
+    color:#e94f9b;
+    z-index:10;
+}
+
+.heart {
+    position:fixed;
+    font-size:25px;
+    animation:fly 5s linear infinite;
+}
+
+@keyframes fly {
+    from {
+        transform:translateY(100vh);
+        opacity:1;
+    }
+    to {
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
+
+input {
+    padding:12px;
+    border-radius:15px;
+    border:1px solid #ffc1dd;
+    font-size:18px;
+    margin:8px;
+}
+
+.countdown {
+    margin-top:20px;
+    font-size:22px;
+    color:#e94f9b;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="main">
+
+    <div id="start">
+        <h1>🌸 Julio… 🌸</h1>
+        <p>Czy chciałabyś ze mną gdzieś wyjść? 💖</p>
+
+        <button class="yes" onclick="yesClick()">🩷 TAK</button>
+        <button
+    class="no"
+    id="noBtn"
+    style="left:55%; top:55%;"
+    onmouseover="moveNo()"
+    ontouchstart="moveNo()">
+    🙈 NIE
+</button>
+    </div>
+
+
+    <div id="calendar" class="hidden">
+
+        <h1>💕 Jeeeej! ❤️</h1>
+
+        <p>Bardzo się cieszę!</p>
+
+        <p>📅 Kiedy masz czas?</p>
+
+        <input type="date" id="date">
+        <br>
+
+        <input type="time" id="time">
+
+        <br>
+
+        <button class="yes" onclick="confirmDate()">
+            ❤️ Ustalmy termin
+        </button>
+
+    </div>
+
+
+    <div id="done" class="hidden">
+
+        <h1>🩷 Nie mogę się doczekać!</h1>
+
+        <p>
+        Nasze wspólne wyjście będzie wyjątkowe ❤️
+        </p>
+
+        <div class="countdown" id="count"></div>
+
+        <br>
+
+        <button onclick="song()">
+        🎵 Nasza piosenka
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function yesClick(){
+
+    document.getElementById("main").classList.add("blur");
+
+    let msg=document.createElement("div");
+    msg.className="message";
+    msg.innerHTML="💖 Wiedziałem! 😍";
+
+    document.body.appendChild(msg);
+
+    hearts();
+    confetti();
+
+    setTimeout(()=>{
+
+        msg.remove();
+        document.getElementById("main").classList.remove("blur");
+
+        document.getElementById("start")
+        .classList.add("hidden");
+
+        document.getElementById("calendar")
+        .classList.remove("hidden");
+
+    },2500);
+
+}
+
+
+function moveNo() {
+
+    const btn = document.getElementById("noBtn");
+
+    const maxX = window.innerWidth - btn.offsetWidth - 20;
+    const maxY = window.innerHeight - btn.offsetHeight - 20;
+
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    btn.style.left = newX + "px";
+    btn.style.top = newY + "px";
+}
+
+
+
+
+
+function hearts(){
+
+    for(let i=0;i<30;i++){
+
+        let h=document.createElement("div");
+
+        h.className="heart";
+        h.innerHTML="❤️";
+
+        h.style.left=Math.random()*100+"vw";
+        h.style.animationDelay=Math.random()*3+"s";
+
+        document.body.appendChild(h);
+
+        setTimeout(()=>{
+            h.remove();
+        },5000);
+    }
+}
+
+
+function confetti(){
+
+    for(let i=0;i<80;i++){
+
+        let c=document.createElement("div");
+
+        c.innerHTML="🎉";
+        c.style.position="fixed";
+        c.style.left=Math.random()*100+"vw";
+        c.style.top="-20px";
+        c.style.fontSize="25px";
+        c.style.transition="3s";
+
+        document.body.appendChild(c);
+
+        setTimeout(()=>{
+            c.style.top="100vh";
+            c.style.transform=
+            "rotate(720deg)";
+        },50);
+
+        setTimeout(()=>{
+            c.remove();
+        },3000);
+    }
+}
+
+
+function confirmDate(){
+
+    let d=document.getElementById("date").value;
+    let t=document.getElementById("time").value;
+
+    if(!d || !t){
+        alert("Wybierz datę i godzinę ❤️");
+        return;
+    }
+
+
+    localStorage.setItem(
+        "spotkanie",
+        d+" "+t
+    );
+
+
+    document.getElementById("calendar")
+    .classList.add("hidden");
+
+    document.getElementById("done")
+    .classList.remove("hidden");
+
+
+    countdown(new Date(d+"T"+t));
+
+}
+
+
+function countdown(date){
+
+    setInterval(()=>{
+
+        let now=new Date();
+        let diff=date-now;
+
+        if(diff<0){
+            document.getElementById("count")
+            .innerHTML=
+            "To już dziś! ❤️";
+            return;
+        }
+
+
+        let days=Math.floor(diff/86400000);
+        let hours=Math.floor(diff/3600000)%24;
+        let mins=Math.floor(diff/60000)%60;
+        let sec=Math.floor(diff/1000)%60;
+
+
+        document.getElementById("count")
+        .innerHTML=
+        `⏳ ${days} dni ${hours}h ${mins}m ${sec}s`;
+
+    },1000);
+
+}
+
+
+function song(){
+
+    window.open(
+    "https://youtu.be/Kw3935PH01E?list=RDKw3935PH01E",
+    "_blank"
+    );
+
+}
+window.onload = () => {
+    const btn = document.getElementById("noBtn");
+
+    btn.style.left = (window.innerWidth / 2 + 80) + "px";
+    btn.style.top = (window.innerHeight / 2 + 50) + "px";
+};
+
+</script>
+
+</body>
+</html>
